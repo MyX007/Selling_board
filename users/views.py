@@ -51,9 +51,10 @@ class ResetPasswordAPIView(ResetPasswordRequestToken):
         return response
 
     def send_reset_email(self, email, token):
+        user = User.objects.get(email=email)
         send_mail(
             subject="Восттановление пароля",
-            message=f"users/password-reset/{token}",
+            message=f"users/password-reset/{user.pk}/{token}",
             from_email=EMAIL_HOST_USER,
             recipient_list=[email],
         )
